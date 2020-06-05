@@ -58,7 +58,8 @@ const AuthState = (props) => {
         };
 
         try {
-            const res = await axios.post('/user/login', formData, config);
+            console.log("[formdata]",formData)
+            const res = await axios.post('http://13.233.125.241:8080/user/login', formData, config);
             dispatch({
                 type: LOGIN_SUCCESS,
                 payload: res.data
@@ -83,12 +84,14 @@ const AuthState = (props) => {
         }
 
         try {
-            const res = await axios.get('/user');
-            console.log(res.data);
-            dispatch({
-                type: USER_LOADED,
-                payload: res.data
-            });
+            const res = await axios.get('http://13.233.125.241:8080/user')
+            if(!res.data.error){
+                dispatch({
+                    type: USER_LOADED,
+                    payload: res.data
+                });
+            }
+     
         } catch (err) {
             dispatch({
                 type: AUTH_ERROR

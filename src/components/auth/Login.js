@@ -1,18 +1,18 @@
 import React, { useState, useContext, useEffect, Fragment } from "react";
 import AuthContext from "../../context/auth/authContext";
-
+import Hoc from "../../containers/Hoc"
 const Login = props => {
   const authContext = useContext(AuthContext);
   const { login, isAuthenticated, error } = authContext;
 
   const [user, setUser] = useState({
-    email: "",
+    username: "",
     password: ""
   });
 
   useEffect(() => {
     if (isAuthenticated) {
-      props.history.push("/home");
+      props.history.push("/application");
     }
     console.log(error);
   }, [isAuthenticated, props.history, error]);
@@ -24,21 +24,22 @@ const Login = props => {
     });
   };
 
-  const { email, password } = user;
+  const { username, password } = user;
 
   const onSubmit = e => {
     e.preventDefault();
-    if (email === "" || password === "") {
+    if (username === "" || password === "") {
       alert("Please complete all fields");
     } else {
       login({
-        email,
+        username,
         password
       });
     }
   };
 
   return (
+    <Hoc>
     <div className="form-container w3-card">
       <h1>
         Account{" "}
@@ -49,11 +50,11 @@ const Login = props => {
       </h1>
       <form onSubmit={onSubmit}>
         <input
-          name="email"
+          name="username"
           className="input-field"
-          placeholder="Email"
+          placeholder="username"
           type="text"
-          value={email}
+          value={username}
           onChange={onChange}
         />
         <input
@@ -74,6 +75,7 @@ const Login = props => {
         />
       </form>
     </div>
+    </Hoc>
   );
 };
 export default Login;

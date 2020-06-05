@@ -1,17 +1,17 @@
 import React, { useState, useContext, useEffect, Fragment } from "react";
 import AuthContext from "../../context/auth/authContext";
-import AuthState from "../../context/auth/authState";
 import './style.css';
+import Hoc from '../../containers/Hoc'
 
 
 const Register = props => {
 
   const authContext = useContext(AuthContext);
-  const {register, login, error, isAuthenticated} = authContext;
+  const {register, login, error, isAuthenticated,logout} = authContext;
 
   useEffect(()=> {
       if(isAuthenticated){
-          props.history.push('/home');
+          props.history.push('/application');
       }
       console.log(error);
   }, [error, isAuthenticated, props.history]);
@@ -47,6 +47,7 @@ const Register = props => {
   };
 
   return (
+    <Hoc isAuthenticated={isAuthenticated} logout={logout}>
     <div className="form-container w3-card">
       <h1>
         Account  <span style={{color:"red"}}>  Register</span>
@@ -100,6 +101,7 @@ const Register = props => {
         />
       </form>
     </div>
+    </Hoc>
   );
 };
 export default Register;
